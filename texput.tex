@@ -1,0 +1,125 @@
+\title{\href{https://datatracker.ietf.org/wg/ppsp}{PPSP (Peer to Peer Streaming Protocol)}}
+\author{Vicente González Ruiz}
+
+\maketitle
+\tableofcontents
+
+\section{What is the PPSP?}
+%{{{
+
+\begin{itemize}
+\item The PPSP is an application-layer protocol for the real-time
+  streaming of media content between (usually networked) processes
+  (peers), as well as the delivery of content-on-demand.
+\item The PPSP comprises two different protocols:
+  \begin{enumerate}
+  \item The \textbf{PPSP-TP (PPSP Tracker Protocol):} The tracker
+    protocol handles the initial and periodic exchange of meta
+    information between trackers and peers, such as which peers can
+    provide the content. A descentralized tracking mechanism has also
+    been developed.
+  \item The \textbf{PPSPP (PPS Peer Protocol):} The peer protocol
+    controls the exchange of the content between the peers.
+  \end{enumerate}
+\end{itemize}
+
+%}}}
+
+\section{Basic operation}
+%{{{
+
+\begin{itemize}
+\item When a peer wants to receive streaming of a selected content (leech
+   mode):
+\begin{enumerate}
+\item Peer connects to a tracker and joins a swarm.
+\item Peer acquires a list of other peers in the swarm from the tracker.
+\item Peer exchanges its content availability with the peers on the
+  obtained peer list (peer protocol).
+\item Peer identifies the peers with desired content.
+\item Peer requests content from the identified peers (peer protocol).
+\end{enumerate}
+\end{itemize}
+
+%}}}
+
+\section{Transport protocols}
+%{{{
+
+\begin{itemize}
+\item Usually, the UDP is used for transport in the PPSPP. In this
+  case, each chunk is explicity acknowledged.
+\item The PPSP can use also the TCP.
+\end{itemize}
+
+%}}}
+
+\section{Architecture}
+%{{{
+
+\begin{itemize}
+\item The content is provided by seeder peers. Several seeder peers
+  can be in the same swarm (content-on-demand).
+\item The peers meet each other asking a tracker (the tracker does not
+  handle the content) or an other (connected) peers.
+\item Peers are ``connected''\footnote{Using the UDP the connection
+    concept does not make sense.} ramdomly, depending on the churn and
+  the network behaviour.
+\end{itemize}
+
+%}}}
+
+\section{Chunk delivery}
+%{{{
+
+\begin{itemize}
+\item Peers annouce to the peers that are connected the chunks that it
+  has using ``HAVE'' messages. In general, HAVE messages are
+  piggybacked onto DATA (chunk) messages.
+\item Peers request chunks using ``REQUEST'' messges (pull scheme).
+\item Peers transmitt as much content as possible, depending on the
+  requests of the others peers, although a peer can ``choke'' (avoid
+  to send data) other peer for some reason (for example, because the
+  upload capacity is exhausted).
+\end{itemize}
+
+%}}}
+
+\section{Freeriding prevention}
+%{{{
+
+\begin{itemize}
+\item Freeriding (how to deal with peers that only download content
+  byt never upload) is optional (it is defined as an extension).
+\item Proposes to use the Tit-For-Tat Algorithm as used in BitTorrent
+  (initially, a peer A tries to upload as much as possible to another
+  peer B and if B does not recriprocate, A chokes B and try with a
+  different randomly selected peer).
+\end{itemize}
+
+%}}}
+
+\section{Content integrity}
+%{{{
+
+\begin{itemize}
+\item Peers receive a cryptographic hash for earch chunk of data which
+  can be used to check if the content has been modified in transit and
+  allows every peer to directly detect when a malicious peer tries to
+  distribute fake content.
+\item When a peer detects a malicious peer, it is placed on a
+  blacklist and not served anymore.
+\end{itemize}
+
+%}}}
+
+\section{Swarms (channels)}
+%{{{
+
+\begin{itemize}
+\item Peers can listen to multiple swarms when they desire to receive
+  several channels.
+\end{itemize}
+
+%}}}
+

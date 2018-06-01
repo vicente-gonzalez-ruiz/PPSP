@@ -1,0 +1,184 @@
+<!DOCTYPE html> 
+<html> 
+<head> <title>PPSP (Peer to Peer Streaming Protocol)</title> 
+<meta charset="UTF-8" /> 
+<meta name="generator" content="TeX4ht (http://www.cse.ohio-state.edu/~gurari/TeX4ht/)" /> 
+<link rel="stylesheet" type="text/css" href="index.css" /> 
+<script type="text/javascript" 
+src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" 
+></script> 
+<style type="text/css"> 
+.MathJax_MathML {text-indent: 0;} 
+</style> 
+</head><body 
+>
+   <div class="maketitle">
+                                                                  
+
+                                                                  
+                                                                  
+
+                                                                  
+
+<h2 class="titleHead"><a 
+href="https://datatracker.ietf.org/wg/ppsp" >PPSP (Peer to Peer Streaming Protocol)</a></h2>
+ <div class="author" ><span 
+class="ecrm-1200">Vicente Gonz</span><span 
+class="ecrm-1200">á</span><span 
+class="ecrm-1200">lez Ruiz</span></div><br />
+<div class="date" ><span 
+class="ecrm-1200">June 1, 2018</span></div>
+   </div>
+   <h3 class="likesectionHead"><a 
+ id="x1-1000"></a>Contents</h3>
+   <div class="tableofcontents">
+   <span class="sectionToc" >1 <a 
+href="#x1-20001" id="QQ2-1-2">What is the PPSP?</a></span>
+<br />   <span class="sectionToc" >2 <a 
+href="#x1-30002" id="QQ2-1-3">Basic operation</a></span>
+<br />   <span class="sectionToc" >3 <a 
+href="#x1-40003" id="QQ2-1-4">Transport protocols</a></span>
+<br />   <span class="sectionToc" >4 <a 
+href="#x1-50004" id="QQ2-1-5">Architecture</a></span>
+<br />   <span class="sectionToc" >5 <a 
+href="#x1-60005" id="QQ2-1-6">Chunk delivery</a></span>
+<br />   <span class="sectionToc" >6 <a 
+href="#x1-70006" id="QQ2-1-7">Freeriding prevention</a></span>
+<br />   <span class="sectionToc" >7 <a 
+href="#x1-80007" id="QQ2-1-8">Content integrity</a></span>
+<br />   <span class="sectionToc" >8 <a 
+href="#x1-90008" id="QQ2-1-9">Swarms (channels)</a></span>
+   </div>
+<!--l. 7--><p class="noindent" >
+</p>
+   <h3 class="sectionHead"><span class="titlemark">1   </span> <a 
+ id="x1-20001"></a>What is the PPSP?</h3>
+     <ul class="itemize1">
+     <li class="itemize">The PPSP is an application-layer protocol for the real-time streaming of
+     media content between (usually networked) processes (peers), as well as
+     the delivery of content-on-demand.
+     </li>
+     <li class="itemize">The PPSP comprises two diﬀerent protocols:
+                                                                  
+
+                                                                  
+         <ol  class="enumerate1" >
+         <li 
+  class="enumerate" id="x1-2002x1">The <span 
+class="ecbx-1000">PPSP-TP (PPSP Tracker Protocol): </span>The tracker protocol
+         handles  the  initial  and  periodic  exchange  of  meta  information
+         between  trackers  and  peers,  such  as  which  peers  can  provide
+         the  content.  A  descentralized  tracking  mechanism  has  also  been
+         developed.
+         </li>
+         <li 
+  class="enumerate" id="x1-2004x2">The <span 
+class="ecbx-1000">PPSPP (PPS Peer Protocol): </span>The peer protocol controls
+         the exchange of the content between the peers.</li></ol>
+     </li></ul>
+<!--l. 28--><p class="noindent" >
+</p>
+   <h3 class="sectionHead"><span class="titlemark">2   </span> <a 
+ id="x1-30002"></a>Basic operation</h3>
+     <ul class="itemize1">
+     <li class="itemize">When a peer wants to receive streaming of a selected content (leech
+     mode):
+         <ol  class="enumerate1" >
+         <li 
+  class="enumerate" id="x1-3002x1">Peer connects to a tracker and joins a swarm.
+         </li>
+         <li 
+  class="enumerate" id="x1-3004x2">Peer acquires a list of other peers in the swarm from the tracker.
+         </li>
+         <li 
+  class="enumerate" id="x1-3006x3">Peer exchanges its content availability with the peers on the obtained
+         peer list (peer protocol).
+         </li>
+         <li 
+  class="enumerate" id="x1-3008x4">Peer identiﬁes the peers with desired content.
+         </li>
+         <li 
+  class="enumerate" id="x1-3010x5">Peer requests content from the identiﬁed peers (peer protocol).</li></ol>
+     </li></ul>
+<!--l. 46--><p class="noindent" >
+</p>
+   <h3 class="sectionHead"><span class="titlemark">3   </span> <a 
+ id="x1-40003"></a>Transport protocols</h3>
+     <ul class="itemize1">
+     <li class="itemize">Usually, the UDP is used for transport in the PPSPP. In this case, each
+     chunk is explicity acknowledged.
+                                                                  
+
+                                                                  
+     </li>
+     <li class="itemize">The PPSP can use also the TCP.</li></ul>
+<!--l. 57--><p class="noindent" >
+</p>
+   <h3 class="sectionHead"><span class="titlemark">4   </span> <a 
+ id="x1-50004"></a>Architecture</h3>
+     <ul class="itemize1">
+     <li class="itemize">The content is provided by seeder peers. Several seeder peers can be in
+     the same swarm (content-on-demand).
+     </li>
+     <li class="itemize">The peers meet each other asking a tracker (the tracker does not handle
+     the content) or an other (connected) peers.
+     </li>
+     <li class="itemize">Peers are “connected”<span class="footnote-mark"><a 
+href="index2.html#fn1x0"><sup class="textsuperscript">1</sup></a></span><a 
+ id="x1-5001f1"></a> 
+     ramdomly, depending on the churn and the network behaviour.</li></ul>
+<!--l. 72--><p class="noindent" >
+</p>
+   <h3 class="sectionHead"><span class="titlemark">5   </span> <a 
+ id="x1-60005"></a>Chunk delivery</h3>
+     <ul class="itemize1">
+     <li class="itemize">Peers annouce to the peers that are connected the chunks that it has
+     using “HAVE” messages. In general, HAVE messages are piggybacked onto
+     DATA (chunk) messages.
+     </li>
+     <li class="itemize">Peers request chunks using “REQUEST” messges (pull scheme).
+     </li>
+     <li class="itemize">Peers transmitt as much content as possible, depending on the requests
+     of the others peers, although a peer can “choke”  (avoid to send data)
+     other peer for some reason (for example, because the upload capacity is
+     exhausted).</li></ul>
+                                                                  
+
+                                                                  
+<!--l. 88--><p class="noindent" >
+</p>
+   <h3 class="sectionHead"><span class="titlemark">6   </span> <a 
+ id="x1-70006"></a>Freeriding prevention</h3>
+     <ul class="itemize1">
+     <li class="itemize">Freeriding (how to deal with peers that only download content byt never
+     upload) is optional (it is deﬁned as an extension).
+     </li>
+     <li class="itemize">Proposes to use the Tit-For-Tat Algorithm as used in BitTorrent (initially,
+     a peer A tries to upload as much as possible to another peer B and if
+     B does not recriprocate, A chokes B and try with a diﬀerent randomly
+     selected peer).</li></ul>
+<!--l. 102--><p class="noindent" >
+</p>
+   <h3 class="sectionHead"><span class="titlemark">7   </span> <a 
+ id="x1-80007"></a>Content integrity</h3>
+     <ul class="itemize1">
+     <li class="itemize">Peers receive a cryptographic hash for earch chunk of data which can
+     be used to check if the content has been modiﬁed in transit and allows
+     every peer to directly detect when a malicious peer tries to distribute fake
+     content.
+     </li>
+     <li class="itemize">When a peer detects a malicious peer, it is placed on a blacklist and not
+     served anymore.</li></ul>
+<!--l. 116--><p class="noindent" >
+</p>
+   <h3 class="sectionHead"><span class="titlemark">8   </span> <a 
+ id="x1-90008"></a>Swarms (channels)</h3>
+     <ul class="itemize1">
+     <li class="itemize">Peers can listen to multiple swarms when they desire to receive several
+     channels.</li></ul>
+    
+</body> 
+</html>
+                                                                  
+
+
